@@ -47,7 +47,7 @@ void setup() {
   pinMode(MULTIPLEX_S1, 1);
   pinMode(MULTIPLEX_S2, 1);
   digitalWrite(22,1);
-  analogReadResolution(12);
+  analogReadResolution(11);
 
   
   queue_init(&q_sensors, sizeof(float)*sensorReadings.size(), 1);
@@ -83,10 +83,10 @@ void loop() {
     delayMicroseconds(50);
 
     //make a reading
-    size_t ain = analogRead(26);
+    auto ain = analogRead(26);
     sensorReadings[sensorIdx] = ain;
     queue_try_add(&q_sensors, sensorReadings.data());
-    sendOverSerial(sensorIdx, ain / 4096.0);
+    sendOverSerial(sensorIdx, ain / 2047.0);
     delay(1);
   }
   delay(30);
